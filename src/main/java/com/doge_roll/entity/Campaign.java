@@ -28,6 +28,8 @@ public class Campaign {
 	private Long id;
 	@Column(nullable = false)
 	private String name;
-	private String creator;
+	@Column(nullable = false)
+	private String username;
 	private LocalDate nextSession;
+	private String description;
 }

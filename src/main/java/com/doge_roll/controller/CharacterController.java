@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,17 +25,21 @@ public class CharacterController {
 	@Autowired
 	CharacterService charService;
 
-	@PostMapping
-	public ResponseEntity<CharacterDnD> createCharacter(@RequestBody CharacterDnD character) {
-		return new ResponseEntity<CharacterDnD>(charService.saveCharacter(character), HttpStatus.CREATED);
+	@PostMapping(path = "/campaign/{campaignId}")
+	public ResponseEntity<CharacterDnD> createCharacter(@PathVariable(name = "campaignId")Long campaignId, @RequestBody CharacterDnD character) {
+		return new ResponseEntity<CharacterDnD>(charService.saveCharacter(campaignId, character), HttpStatus.CREATED);
 	}
 
 	@GetMapping(path = "all")
 	public ResponseEntity<List<CharacterDnD>> getAllCharacters() {
-		return new ResponseEntity<List<CharacterDnD>>(charService.findall(), HttpStatus.OK);
+		return new ResponseEntity<List<CharacterDnD>>(charService.findAll(), HttpStatus.OK);
 	}
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> updateCharacter(@RequestBody CharacterDnD character){
 		return new ResponseEntity<CharacterDnD>(charService.updateCharacter(character),HttpStatus.OK);
+	}
+	@GetMapping(path = "/filter/campaign/{campaignId}")
+	public ResponseEntity<List<CharacterDnD>> filterByCampaign(@PathVariable(name = "campaignId") Long campaignId) {
+		return new ResponseEntity<List<CharacterDnD>>(charService.filterByCampaign(campaignId), HttpStatus.OK);
 	}
 }

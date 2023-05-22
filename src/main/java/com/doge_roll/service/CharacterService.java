@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.doge_roll.entity.Campaign;
 import com.doge_roll.entity.CharacterDnD;
 import com.doge_roll.repository.CharacterDaoRepository;
 
@@ -16,12 +17,17 @@ public class CharacterService {
 	@Autowired
 	private CharacterDaoRepository charRepo;
 	
-	public CharacterDnD saveCharacter(CharacterDnD character) {
+	@Autowired
+	private CampaignService campRepo;
+	
+	public CharacterDnD saveCharacter(Long id, CharacterDnD character) {
+		Campaign c = campRepo.getCampaignById(id);
+		character.setCampaign(c);
 		charRepo.save(character);
 		return character;
 	}
 	
-	public List<CharacterDnD> findall() {
+	public List<CharacterDnD> findAll() {
 		return (List<CharacterDnD>) charRepo.findAll();
 	}
 	
@@ -32,5 +38,7 @@ public class CharacterService {
 		charRepo.save(character);
 		return character;
 	}
-	
+	public List<CharacterDnD> filterByCampaign(Long campaignId) {
+		return charRepo.filterByCampaign(campaignId);
+	}
 }

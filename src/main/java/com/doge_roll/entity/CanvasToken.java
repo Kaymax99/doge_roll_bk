@@ -20,18 +20,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "campaign_tokens")
+@Table(name = "campaigns_tokens")
 public class CanvasToken {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Integer left;
-	private Integer top;
+	private Integer leftValue;
+	private Integer topValue;
 	private short scaleX;
 	private short scaleY;
-	private short angle;
+	private short angleValue;
 	private String currentSrc;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

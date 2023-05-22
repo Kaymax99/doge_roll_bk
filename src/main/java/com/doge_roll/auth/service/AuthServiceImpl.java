@@ -1,5 +1,6 @@
 package com.doge_roll.auth.service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,6 +80,7 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setRegistrationDate(LocalDate.now());
 
         Set<Role> roles = new HashSet<>();
         
