@@ -41,4 +41,11 @@ public class CharacterService {
 	public List<CharacterDnD> filterByCampaign(Long campaignId) {
 		return charRepo.filterByCampaign(campaignId);
 	}
+	public String deleteCharacter(Long id) {
+		if (!charRepo.existsById(id)) {
+			throw new EntityExistsException("No Character saved with given ID");
+		}
+		charRepo.deleteById(id);
+		return "Character successfully deleted";
+	}
 }

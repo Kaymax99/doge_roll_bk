@@ -1,18 +1,22 @@
 package com.doge_roll.auth.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doge_roll.auth.entity.User;
 import com.doge_roll.auth.payload.JWTAuthResponse;
 import com.doge_roll.auth.payload.LoginDto;
 import com.doge_roll.auth.payload.RegisterDto;
 import com.doge_roll.auth.service.AuthService;
+import com.doge_roll.auth.service.AuthServiceImpl;
 
 @CrossOrigin(origins =  "*", maxAge = 360000)
 @RestController
@@ -20,6 +24,9 @@ import com.doge_roll.auth.service.AuthService;
 public class AuthController {
 
     private AuthService authService;
+    
+    @Autowired
+    private AuthServiceImpl authImplService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
@@ -29,12 +36,18 @@ public class AuthController {
     @PostMapping(value = {"/login", "/signin"})
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto){
            	
+    	String username = loginDto.getUsername();
     	String token = authService.login(loginDto);
+    	User u = authImplService.getUserByUsername(username);
 
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
-        jwtAuthResponse.setUsername(loginDto.getUsername());
+        jwtAuthResponse.setUsername(username);
+        jwtAuthResponse.setName(u.getName());
+        jwtAuthResponse.setSurname(u.getSurname());
+        jwtAuthResponse.setEmail(u.getEmail());
+        jwtAuthResponse.setProfilePic(u.getProfilePic());
         jwtAuthResponse.setAccessToken(token);
-
+        jwtAuthResponse.setRegistration_date(u.getRegistrationDate());
         return ResponseEntity.ok(jwtAuthResponse);
     }
 

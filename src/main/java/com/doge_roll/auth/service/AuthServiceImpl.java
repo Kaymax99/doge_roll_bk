@@ -107,4 +107,13 @@ public class AuthServiceImpl implements AuthService {
     	else return ERole.ROLE_USER;
     }
     
+    public User getUserByUsername(String username) {
+    	if(!userRepository.existsByUsername(username)){
+            throw new MyAPIException(HttpStatus.BAD_REQUEST, "No user found with given username.");
+        } else {
+        	return userRepository.findByUsername(username).get();
+        }
+    	
+    }
+    
 }
