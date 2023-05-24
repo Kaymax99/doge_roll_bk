@@ -35,6 +35,7 @@ public class User {
     private String password;
     private String profilePic;
     private LocalDate registrationDate;
+    private String bio;
     
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_roles",

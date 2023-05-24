@@ -44,11 +44,11 @@ public class CampaignService {
 		campRepo.save(campaign);
 		return campaign;
 	}
-	public List<Campaign> filterByUsername(String username) {
-		if (!userRepo.existsByUsername(username)) {
+	public List<Campaign> filterByUserId(Long userId) {
+		if (!userRepo.existsById(userId)) {
 			throw new EntityExistsException("No User saved with given ID");
 		}
-		return campRepo.filterByUsername(username);
+		return campRepo.filterByUserId(userId);
 	}
 	
 	public String deleteCampaign(Long id) {

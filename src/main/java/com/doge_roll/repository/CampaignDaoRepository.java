@@ -10,6 +10,6 @@ import com.doge_roll.entity.Campaign;
 
 public interface CampaignDaoRepository extends CrudRepository<Campaign, Long>, PagingAndSortingRepository<Campaign, Long> {
 
-	@Query(value = "SELECT * FROM campaigns c where c.username = :username ORDER BY c.id ASC", nativeQuery = true)
-	public List<Campaign> filterByUsername(String username);
+	@Query(value = "SELECT * FROM campaigns c where c.user_id = :userId ORDER BY c.id ASC", nativeQuery = true)
+	public List<Campaign> filterByUserId(Long userId);
 }

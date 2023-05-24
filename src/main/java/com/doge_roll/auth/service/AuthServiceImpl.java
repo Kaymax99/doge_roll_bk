@@ -116,4 +116,12 @@ public class AuthServiceImpl implements AuthService {
     	
     }
     
+    public User getUserById (Long id) {
+    	if (!userRepository.existsById(id)) {
+    		throw new MyAPIException(HttpStatus.BAD_REQUEST, "No user found with given id.");
+    	} else {
+    		return userRepository.findById(id).get();
+    	}
+    }
+    
 }

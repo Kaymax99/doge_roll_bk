@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doge_roll.auth.entity.User;
+import com.doge_roll.auth.repository.UserRepository;
 import com.doge_roll.entity.Campaign;
 import com.doge_roll.service.CampaignService;
 
@@ -26,8 +28,13 @@ public class CampaignController {
 	@Autowired
 	CampaignService campService;
 	
-	@PostMapping
-	public ResponseEntity<Campaign> createCampaign(@RequestBody Campaign campaign) {
+	@Autowired
+	UserRepository userRepo;
+	
+	@PostMapping(path = "{id}")
+	public ResponseEntity<Campaign> createCampaign(@PathVariable(name = "id") Long id, @RequestBody Campaign campaign) {
+		User u = userRepo.findById(id).get();
+		campaign.setUser(u);
 		return new ResponseEntity<Campaign>(campService.saveCampaign(campaign), HttpStatus.CREATED);
 	}
 	
@@ -36,9 +43,9 @@ public class CampaignController {
 		return new ResponseEntity<List<Campaign>>(campService.findAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/user/{username}")
-	public ResponseEntity<List<Campaign>> getCampaignsByUsername(@PathVariable(name = "username") String username) {
-		return new ResponseEntity<List<Campaign>>(campService.filterByUsername(username), HttpStatus.OK);
+	@GetMapping(path = "/user/{id}")
+	public ResponseEntity<List<Campaign>> getCampaignsByUsername(@PathVariable(name = "id") Long id) {
+		return new ResponseEntity<List<Campaign>>(campService.filterByUserId(id), HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "{id}")
