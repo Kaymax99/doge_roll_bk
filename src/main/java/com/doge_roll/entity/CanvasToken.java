@@ -1,5 +1,7 @@
 package com.doge_roll.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,7 +22,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "campaigns_tokens")
+@Table(name = "canvas_tokens")
 public class CanvasToken {
 	
 	@Id
@@ -29,12 +31,15 @@ public class CanvasToken {
 	
 	private Integer leftValue;
 	private Integer topValue;
-	private short scaleX;
-	private short scaleY;
-	private short angleValue;
+	private Integer width;
+	private Integer height;
+	private BigDecimal scaleX;
+	private BigDecimal scaleY;
+	private Short angle;
 	private String currentSrc;
+	private String layer;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	private Campaign campaign;
+//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//	private Campaign campaign;
 
 }

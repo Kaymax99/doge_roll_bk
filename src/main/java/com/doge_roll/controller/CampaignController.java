@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.doge_roll.auth.entity.User;
 import com.doge_roll.auth.repository.UserRepository;
+import com.doge_roll.entity.AllTokens;
 import com.doge_roll.entity.Campaign;
 import com.doge_roll.service.CampaignService;
 
@@ -59,5 +60,9 @@ public class CampaignController {
 	@DeleteMapping(path = "{id}")
 	public ResponseEntity<String> deleteCampaign(@PathVariable Long id) {
 		return new ResponseEntity<String>(campService.deleteCampaign(id), HttpStatus.OK);
+	}
+	@PostMapping(path = "/tokens/{id}")
+	public ResponseEntity<Campaign> saveTokens(@RequestBody AllTokens tokens, @PathVariable Long id) {
+		return new ResponseEntity<Campaign>(campService.saveTokens(tokens, id), HttpStatus.OK);
 	}
 }
