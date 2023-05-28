@@ -19,7 +19,9 @@ import com.doge_roll.auth.entity.User;
 import com.doge_roll.auth.repository.UserRepository;
 import com.doge_roll.entity.AllTokens;
 import com.doge_roll.entity.Campaign;
+import com.doge_roll.entity.CanvasToken;
 import com.doge_roll.service.CampaignService;
+import com.doge_roll.service.TokenService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -31,6 +33,8 @@ public class CampaignController {
 	
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	TokenService tokenService;
 	
 	@PostMapping(path = "{id}")
 	public ResponseEntity<Campaign> createCampaign(@PathVariable(name = "id") Long id, @RequestBody Campaign campaign) {
@@ -62,7 +66,11 @@ public class CampaignController {
 		return new ResponseEntity<String>(campService.deleteCampaign(id), HttpStatus.OK);
 	}
 	@PostMapping(path = "/tokens/{id}")
-	public ResponseEntity<Campaign> saveTokens(@RequestBody AllTokens tokens, @PathVariable Long id) {
+	public ResponseEntity<Campaign> saveTokens(@RequestBody List<CanvasToken> tokens, @PathVariable Long id) {
 		return new ResponseEntity<Campaign>(campService.saveTokens(tokens, id), HttpStatus.OK);
+	}
+	@GetMapping(path = "/tokens/{id}")
+	public ResponseEntity<List<CanvasToken>> getTokens(@PathVariable Long id) {
+		return new ResponseEntity<List<CanvasToken>> (tokenService.filterByCampaignId(id), HttpStatus.OK);
 	}
 }

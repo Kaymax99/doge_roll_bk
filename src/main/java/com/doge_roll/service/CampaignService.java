@@ -1,13 +1,9 @@
 package com.doge_roll.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.doge_roll.auth.repository.UserRepository;
-import com.doge_roll.entity.AllTokens;
 import com.doge_roll.entity.Campaign;
 import com.doge_roll.entity.CanvasToken;
 import com.doge_roll.entity.CharacterDnD;
@@ -26,6 +22,8 @@ public class CampaignService {
 	private UserRepository userRepo;
 	@Autowired
 	private CharacterDaoRepository charRepo;
+	@Autowired
+	private TokenService tokenService;
 	
 	public Campaign saveCampaign(Campaign campaign) {
 		campRepo.save(campaign);
@@ -65,21 +63,22 @@ public class CampaignService {
 		campRepo.deleteById(id);
 		return "Campaign and associated characters deleted succesfully";
 	}
-	public Campaign saveTokens(AllTokens allTokens, Long id) {
+	public Campaign saveTokens(List<CanvasToken> allTokens, Long id) {
 		if (!campRepo.existsById(id)) {
 			throw new EntityExistsException("No Campaign saved with given ID");
 		}
 		Campaign c = campRepo.findById(id).get();
+		List<CanvasToken> currentTokens = tokenService.filterByCampaignId(id);
 		
-		List<CanvasToken> tokens = allTokens.getTokens();
-		List<CanvasToken> maps = allTokens.getMaps();
-		int tokLen = tokens.size();
-		int mapsLen = maps.size();
-		List<CanvasToken> result = new ArrayList<CanvasToken>();
-		result.addAll(tokens);
-		result.addAll(maps);
-		
-		c.setTokens(result);
+		if (currentTokens.size() > 0) {
+			for (CanvasToken token: currentTokens) {
+				tokenService.deleteToken(token.getId());
+				}
+			}
+		for (CanvasToken token: allTokens) {
+			token.setCampaign(c);
+			tokenService.saveToken(token);
+			}
 		return campRepo.save(c);
 	}
 }

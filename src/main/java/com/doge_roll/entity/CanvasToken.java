@@ -2,12 +2,14 @@ package com.doge_roll.entity;
 
 import java.math.BigDecimal;
 
+import org.hibernate.annotations.OnDelete;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,8 +28,7 @@ import lombok.ToString;
 public class CanvasToken {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 	
 	private Integer leftValue;
 	private Integer topValue;
@@ -38,8 +39,10 @@ public class CanvasToken {
 	private Short angle;
 	private String currentSrc;
 	private String layer;
-	
-//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//	private Campaign campaign;
-
+//	@JoinTable(name = "campaigns_tokens",
+//		joinColumns = @JoinColumn(name = "token_id", referencedColumnName = "id"),
+//		inverseJoinColumns = @JoinColumn(name = "campaign_id", referencedColumnName = "id")
+//			)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	private Campaign campaign;
 }
