@@ -1,7 +1,6 @@
 package com.doge_roll.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.doge_roll.auth.entity.User;
 import com.doge_roll.auth.repository.UserRepository;
-import com.doge_roll.entity.AllTokens;
 import com.doge_roll.entity.Campaign;
 import com.doge_roll.entity.CanvasToken;
 import com.doge_roll.service.CampaignService;

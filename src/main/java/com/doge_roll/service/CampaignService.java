@@ -9,13 +9,12 @@ import com.doge_roll.entity.CanvasToken;
 import com.doge_roll.entity.CharacterDnD;
 import com.doge_roll.repository.CampaignDaoRepository;
 import com.doge_roll.repository.CharacterDaoRepository;
-
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CampaignService {
-	
+
 	@Autowired
 	private CampaignDaoRepository campRepo;
 	@Autowired
@@ -24,20 +23,23 @@ public class CampaignService {
 	private CharacterDaoRepository charRepo;
 	@Autowired
 	private TokenService tokenService;
-	
+
 	public Campaign saveCampaign(Campaign campaign) {
 		campRepo.save(campaign);
 		return campaign;
 	}
+
 	public List<Campaign> findAll() {
 		return (List<Campaign>) campRepo.findAll();
 	}
+
 	public Campaign getCampaignById(Long id) {
-		if(!campRepo.existsById(id)) {
+		if (!campRepo.existsById(id)) {
 			throw new EntityNotFoundException("No campaign found matching given id!");
 		}
 		return campRepo.findById(id).get();
 	}
+
 	public Campaign updateCampaign(Campaign campaign) {
 		if (!campRepo.existsById(campaign.getId())) {
 			throw new EntityExistsException("No Campaign saved with given ID");
@@ -45,13 +47,14 @@ public class CampaignService {
 		campRepo.save(campaign);
 		return campaign;
 	}
+
 	public List<Campaign> filterByUserId(Long userId) {
 		if (!userRepo.existsById(userId)) {
 			throw new EntityExistsException("No User saved with given ID");
 		}
 		return campRepo.filterByUserId(userId);
 	}
-	
+
 	public String deleteCampaign(Long id) {
 		if (!campRepo.existsById(id)) {
 			throw new EntityExistsException("No Campaign saved with given ID");
@@ -63,22 +66,23 @@ public class CampaignService {
 		campRepo.deleteById(id);
 		return "Campaign and associated characters deleted succesfully";
 	}
+
 	public Campaign saveTokens(List<CanvasToken> allTokens, Long id) {
 		if (!campRepo.existsById(id)) {
 			throw new EntityExistsException("No Campaign saved with given ID");
 		}
 		Campaign c = campRepo.findById(id).get();
 		List<CanvasToken> currentTokens = tokenService.filterByCampaignId(id);
-		
+
 		if (currentTokens.size() > 0) {
-			for (CanvasToken token: currentTokens) {
+			for (CanvasToken token : currentTokens) {
 				tokenService.deleteToken(token.getId());
-				}
 			}
-		for (CanvasToken token: allTokens) {
+		}
+		for (CanvasToken token : allTokens) {
 			token.setCampaign(c);
 			tokenService.saveToken(token);
-			}
+		}
 		return campRepo.save(c);
 	}
 }
