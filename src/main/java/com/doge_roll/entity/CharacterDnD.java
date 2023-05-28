@@ -168,5 +168,6 @@ public class CharacterDnD {
 	private String hair;
 	private String appeareance;
 	private String backstory;
+	private String picture;
 
 }
