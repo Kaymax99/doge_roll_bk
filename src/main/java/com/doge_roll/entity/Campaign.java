@@ -1,6 +1,8 @@
 package com.doge_roll.entity;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import com.doge_roll.auth.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,4 +37,5 @@ public class Campaign {
 	private User user;
 	private LocalDate nextSession;
 	private String description;
+	private String image;
 }
