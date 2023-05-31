@@ -1,5 +1,7 @@
 package com.doge_roll.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -7,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -113,6 +116,10 @@ public class CharacterDnD {
 	private String deathsaveSuccesses;
 	private String deathsaveFailures;
 	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<CharacterDnDAttack> attacks;
+	private String attacksText;
+	
 	private String spellcastingType;
 	private String spellcastingAbility;
 	private String spellSaveDC;
@@ -120,24 +127,34 @@ public class CharacterDnD {
 	private String knownSpells;
 	private String preparedSpells;
 	
+	private String cantrips;
 	private String lvl1SpellSlotsMax;
 	private String lvl1SpellSlotsUsed;
+	private String lvl1Spells;
 	private String lvl2SpellSlotsMax;
 	private String lvl2SpellSlotsUsed;
+	private String lvl2Spells;
 	private String lvl3SpellSlotsMax;
 	private String lvl3SpellSlotsUsed;
+	private String lvl3Spells;
 	private String lvl4SpellSlotsMax;
 	private String lvl4SpellSlotsUsed;
+	private String lvl4Spells;
 	private String lvl5SpellSlotsMax;
 	private String lvl5SpellSlotsUsed;
+	private String lvl5Spells;
 	private String lvl6SpellSlotsMax;
 	private String lvl6SpellSlotsUsed;
+	private String lvl6Spells;
 	private String lvl7SpellSlotsMax;
 	private String lvl7SpellSlotsUsed;
+	private String lvl7Spells;
 	private String lvl8SpellSlotsMax;
 	private String lvl8SpellSlotsUsed;
+	private String lvl8Spells;
 	private String lvl9SpellSlotsMax;
 	private String lvl9SpellSlotsUsed;
+	private String lvl9Spells;
 	
 	private String cp;
 	private String sp;
