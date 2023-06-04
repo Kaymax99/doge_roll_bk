@@ -22,6 +22,8 @@ import com.doge_roll.auth.repository.RoleRepository;
 import com.doge_roll.auth.repository.UserRepository;
 import com.doge_roll.auth.security.JwtTokenProvider;
 
+import jakarta.persistence.EntityExistsException;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -123,4 +125,11 @@ public class AuthServiceImpl implements AuthService {
     	}
     }
     
+    public User updateUser(User user) {
+    	if (!userRepository.existsById(user.getId())) {
+    		throw new EntityExistsException("No User found with given ID");
+    	}
+    	userRepository.save(user);
+    	return user;
+    }
 }

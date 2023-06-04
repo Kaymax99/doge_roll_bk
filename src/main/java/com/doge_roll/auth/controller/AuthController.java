@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,4 +80,18 @@ public class AuthController {
     	res.setBio(u.getBio());
     	return ResponseEntity.ok(res);
     }
+    @PutMapping (value = "/user/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<User> updateUserById(@RequestBody ProfileResponse user) {
+    	User u = authImplService.getUserById(user.getId());
+    	u.setBio(user.getBio());
+    	u.setEmail(user.getEmail());
+    	u.setName(user.getName());
+    	u.setProfilePic(user.getProfilePic());
+    	u.setRegistrationDate(user.getRegistration_date());
+    	u.setSurname(user.getSurname());
+    	u.setUsername(user.getUsername());
+    	return new ResponseEntity<User>(authImplService.updateUser(u), HttpStatus.CREATED);
+    }
+    
 }
