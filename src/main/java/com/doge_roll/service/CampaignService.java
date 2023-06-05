@@ -63,6 +63,10 @@ public class CampaignService {
 		for (CharacterDnD character : charList) {
 			charRepo.deleteById(character.getId());
 		}
+		List<CanvasToken> tokensList = tokenService.filterByCampaignId(id);
+		for (CanvasToken token : tokensList) {
+			tokenService.deleteToken(token.getId());
+		}
 		campRepo.deleteById(id);
 		return "Campaign and associated characters deleted succesfully";
 	}
