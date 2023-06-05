@@ -30,6 +30,7 @@ public class CampaignController {
 	
 	@Autowired
 	UserRepository userRepo;
+	
 	@Autowired
 	TokenService tokenService;
 	
